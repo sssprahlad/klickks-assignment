@@ -11,7 +11,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://your-frontend.onrender.com"],
+  origin: ["http://localhost:3000", "https://klickks-assignment-prog4uwfm-saiprahlads-projects.vercel.app"],
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type","Authorization"],
 }));
