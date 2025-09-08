@@ -18,7 +18,7 @@ function Login() {
 
 
    try {
-      const response = await fetch(URL + LOGIN, {
+      const response = await fetch("https://klickks-assignment-86kk.onrender.com/api/auth/login", {
         method: "POST",
         // credentials: 'include',
         headers: { "Content-Type": "application/json" },
