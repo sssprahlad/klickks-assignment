@@ -20,7 +20,7 @@ function Login() {
    try {
       const response = await fetch(URL + LOGIN, {
         method: "POST",
-        credentials: 'include',
+        // credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
