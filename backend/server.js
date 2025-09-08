@@ -11,7 +11,8 @@ const app = express();
 
 
 app.use(cors({
-  origin: ["https://klickks-frontend.vercel.app"], 
+  origin:["https://klickks-assignment-ten.vercel.app"] ,
+  // ["https://klickks-frontend.vercel.app"], 
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type","Authorization"]
 }));
