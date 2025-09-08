@@ -23,6 +23,7 @@ app.use("/api/admin/products", productsRoutes);
 app.use("/api/admin/category", categoryRoutes);
 app.use("/api/cartItem", cartItemRoutes);
 
+
 app.get("/", (req, res) => {
   res.send("Backend API running with SQLite");
 });

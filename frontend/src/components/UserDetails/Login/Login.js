@@ -14,7 +14,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(username, password);
+    console.log(username, password,"password");
 
 
    try {
