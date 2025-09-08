@@ -36,6 +36,7 @@ function Login() {
         navigate(from, { replace: true });
       } else {
         setData({ error: data.error}); 
+        console.log(data.error);
       }
     } catch (error) {
       console.error('Login error:', error);
