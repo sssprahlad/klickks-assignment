@@ -40,7 +40,7 @@ function Login() {
       }
     } catch (error) {
       console.error('Login error:', error);
-      console.log(error);
+      // console.log(error);
       setData({ error: 'backend is not running'});
     }
 
