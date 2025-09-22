@@ -10,7 +10,9 @@
     "prestart": "npm install sqlite3 --build-from-source",
     "pretest": "npm install sqlite3 --build-from-source",
     "test": "echo \"Error: no test specified\" && exit 1", 
-    "build": "echo \"no build step\""
+
+    "install": "npm rebuild sqlite3 --build-from-source",
+    "build": "node server.js"
   },
   "engines": { "node": ">=18" },
   "keywords": [],
