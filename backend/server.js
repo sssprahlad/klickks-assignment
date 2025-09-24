@@ -47,22 +47,44 @@ const cartItemRoutes = require("./routes/cartItem");
 
 const app = express();
 
-const allowedOrigins = process.env.NODE_ENV === "production"
-  ? ["https://klickks-assignment-ten.vercel.app"]
-  : ["http://localhost:3000", "http://localhost:5000"];
+// const allowedOrigins = process.env.NODE_ENV === "production"
+//   ? ["https://klickks-assignment-ten.vercel.app"]
+//   : ["http://localhost:3000", "http://localhost:5000"];
+
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: ["GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true,
+// };
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://klickks-assignment-ten.vercel.app'
+];
 
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: function(origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
+  methods: ['GET','POST','PUT','DELETE','PATCH','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  optionsSuccessStatus: 204
 };
+app.use(cors(corsOptions));
+
+
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); 
@@ -80,37 +102,36 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Create HTTP server
+
 const server = app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
 
-// Handle server errors
+
 const closeServer = () => {
   if (server) {
     server.close();
   }
 };
 
-// Handle unhandled promise rejections
+
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled Rejection Error:', err);
   closeServer();
   process.exit(1);
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception Error:', err);
   closeServer();
   process.exit(1);
 });
 
-// Handle server errors
+
 server.on('error', (error) => {
   if (error.code === 'EADDRINUSE') {
     console.error(`Port ${PORT} is already in use. Trying alternative port...`);
-    // Try to start server on alternative port
+  
     const altPort = parseInt(PORT) + 1;
     const altServer = app.listen(altPort, () => {
       console.log(`Server started on alternative port ${altPort}`);
