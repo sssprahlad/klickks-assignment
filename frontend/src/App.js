@@ -1,23 +1,31 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./components/UserDetails/Login/Login";
-import Register from "./components/UserDetails/Register/Register";
-import ProtectedRoute from "./components/Protect/ProtectedRoute";
-import PublicRoute from "./components/Protect/PublicRoute";
-import Home from "./components/Home/Home";
-import AddCategory from "./components/Admin/AddCategorys/AddCategorys";
-import CategoriesList from "./components/Admin/AddCategorys/CategoriesList/CategoriesList";
-import AddProducts from "./components/Admin/AddProducts/AddProducts";
-import ProductsList from "./components/Admin/AddProducts/ProductsList/ProductsList";
-import Cart from "./components/Cart/Cart";
-import About from "./components/About/About";
-import Contact from "./components/Contact/Contact";
-import OrderSuccess from "./components/OrderSuccess/OrderSuccess";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
+import theme from './theme';
+import Layout from './components/Layout/Layout';
+import Login from './components/UserDetails/Login/Login';
+import Register from './components/UserDetails/Register/Register';
+import ProtectedRoute from './components/Protect/ProtectedRoute';
+import PublicRoute from './components/Protect/PublicRoute';
+import Home from './components/Home/Home';
+import AddCategory from './components/Admin/AddCategorys/AddCategorys';
+import CategoriesList from './components/Admin/AddCategorys/CategoriesList/CategoriesList';
+import AddProducts from './components/Admin/AddProducts/AddProducts';
+import ProductsList from './components/Admin/AddProducts/ProductsList/ProductsList';
+import Cart from './components/Cart/Cart';
+import About from './components/About/About';
+import Contact from './components/Contact/Contact';
+import OrderSuccess from './components/OrderSuccess/OrderSuccess';
 
 function App() {
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
-    <div className="App"> 
-    <BrowserRouter>
-      <Routes>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Layout isMobile={isMobile}>
+          <Routes>
         <Route
           path="/login"
           element={
@@ -46,12 +54,12 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
-
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
-    </div>
+        </Layout>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
