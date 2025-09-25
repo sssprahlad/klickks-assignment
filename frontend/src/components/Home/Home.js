@@ -30,7 +30,7 @@ import Badge from '@mui/material/Badge';
 import { URL, GET_PRODUCTS, ADD_TO_CART, GET_CART, UPDATE_CART_ITEM, GET_CATEGORY } from '../constants/Constants';
 import { setCount } from '../redux/reducer/user';
 
-const Home = () => {
+const Home = ({setUpdateProduct}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -134,6 +134,10 @@ const Home = () => {
     fetchCategories();
     fetchCart();
   }, [dispatch]);
+
+  useEffect(() => {
+    setUpdateProduct(null);
+  }, []);
 
   console.log(products, "products");
   console.log(filteredProducts,"filteredProducts");

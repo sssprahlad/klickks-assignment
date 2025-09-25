@@ -7,11 +7,12 @@ const ScrollToTop = ({ children, setUpdateProduct }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
  
-    
-    if (setUpdateProduct) {
-      setUpdateProduct(null);
-    }
-  }, [pathname, setUpdateProduct]);
+
+    // if (setUpdateProduct) {
+    //   setUpdateProduct(null);
+    // }
+    // setUpdateProduct(null);
+  }, [pathname]);
 
   return children || null;
 };

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OrderSuccess.css";
 import Navbar from "../Navbar/Navbar";
 
-const OrderSuccess = () => {
+const OrderSuccess = ({setUpdateProduct}) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setUpdateProduct(null);
+  }, []);
 
   return (
     <div className="order-success-container">

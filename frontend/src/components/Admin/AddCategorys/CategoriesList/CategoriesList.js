@@ -28,7 +28,7 @@ import {
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 
-const CategoriesList = () => {
+const CategoriesList = ({setUpdateProduct}) => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -38,8 +38,8 @@ const CategoriesList = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 
-  useEffect(() => {
-    const fetchCategories = async () => {
+
+  const fetchCategories = async () => {
     try{
         const response = await fetch(URL + GET_CATEGORY, {
             method: "GET",
@@ -55,25 +55,13 @@ const CategoriesList = () => {
     }
     };
 
+
+  useEffect(() => {
     fetchCategories();
+    setUpdateProduct(null);
   }, []);
 
-//   const handleUpdate = async (id) => {
-//     try{
-//         const response = await fetch(URL + GET_CATEGORY + id, {
-//             method: "PATCH",
-//             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${Cookies.get('jwt_token')}` },
-//             body: JSON.stringify({ name, image }),
-//         });
-//         const data = await response.json();
-//         console.log(data);
-//         setCategories(data);
-//     }catch(error){
-//         console.log(error)
-//         setError(error.message);
-//     }
 
-//   }
 
 const deleteCategory = async (id) => {
     try {

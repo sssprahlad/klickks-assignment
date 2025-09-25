@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './About.css';
 import Navbar from "../Navbar/Navbar";
 
-const About = () => {
+const About = ({setUpdateProduct}) => {
+
+  useEffect(() => {
+    setUpdateProduct(null);
+  }, []);
   return (
     <div className="about-container">
         {/* <Navbar /> */}

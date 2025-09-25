@@ -61,16 +61,16 @@ function App() {
               />
 
               <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/add-category" element={<AddCategory />} />
-                <Route path="/categories-list" element={<CategoriesList />} />
+                <Route path="/" element={<Home setUpdateProduct={setUpdateProduct}/>} />
+                <Route path="/home" element={<Home  setUpdateProduct={setUpdateProduct}/>} />
+                <Route path="/add-category" element={<AddCategory  setUpdateProduct={setUpdateProduct}/>} />
+                <Route path="/categories-list" element={<CategoriesList setUpdateProduct={setUpdateProduct}/>} />
                 <Route path="/add-product" element={<AddProducts updateProduct={updateProduct} setUpdateProduct={setUpdateProduct} />} />
                 <Route path="/products-list" element={<ProductsList  setUpdateProduct={setUpdateProduct} />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="/cart" element={<Cart setUpdateProduct={setUpdateProduct} />} />
+                <Route path="/about" element={<About setUpdateProduct={setUpdateProduct} />} />
+                <Route path="/contact" element={<Contact setUpdateProduct={setUpdateProduct} />} />
+                <Route path="/order-success" element={<OrderSuccess setUpdateProduct={setUpdateProduct} />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
               </Routes>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -84,7 +84,10 @@ const ContactItem = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Contact = () => {
+const Contact = ({setUpdateProduct}) => {
+  useEffect(() => {
+    setUpdateProduct(null);
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',

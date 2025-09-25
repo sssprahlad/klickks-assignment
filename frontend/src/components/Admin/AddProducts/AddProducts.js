@@ -86,7 +86,7 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
     }
   };
 
-  // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -167,33 +167,33 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
     }
   };
 
- 
-
-      useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(URL + GET_CATEGORY, {
-          headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt_token')}`
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch categories');
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(URL + GET_CATEGORY, {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get('jwt_token')}`
         }
-        
-        const data = await response.json();
-        setCategories(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error('Error fetching categories:', err);
-        setSnackbar({
-          open: true,
-          message: 'Failed to load categories',
-          severity: 'error'
-        });
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch categories');
       }
-    };
-    
+      
+      const data = await response.json();
+      setCategories(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+      setSnackbar({
+        open: true,
+        message: 'Failed to load categories',
+        severity: 'error'
+      });
+    }
+  };
+
+  useEffect(() => {
+   
+   setUpdateProduct(null); 
     fetchCategories();
   }, []);
 

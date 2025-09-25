@@ -5,7 +5,7 @@ import { URL, ADD_CATEGORY } from '../../constants/Constants';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-const AddCategorys = () => {
+const AddCategorys = ({setUpdateProduct}) => {
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
     const [data, setData] = useState('');
@@ -51,6 +51,9 @@ const AddCategorys = () => {
 
     
 
+    useEffect(() => {
+        setUpdateProduct(null);
+      }, []);
 
 
 

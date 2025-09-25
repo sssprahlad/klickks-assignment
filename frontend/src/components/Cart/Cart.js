@@ -8,10 +8,19 @@ import { setCount } from '../redux/reducer/user';
 import { useNavigate } from 'react-router-dom'; 
 import { Box, CircularProgress } from '@mui/material';
 import { useSnackbar } from 'notistack';    
-const Cart = () => {
+
+const Cart = ({setUpdateProduct}) => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState({});
+
+    
+    useEffect(() => {
+        if (setUpdateProduct) {
+            setUpdateProduct(null);
+        }
+    }, [setUpdateProduct]);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
@@ -37,11 +46,9 @@ const Cart = () => {
         fetchCartItems();
     }, [fetchCartItems]);
 
-    // Debounced update quantity function
     const updateQuantity = useCallback(async (itemId, newQuantity) => {
         if (newQuantity < 1) return;
 
-        // Optimistic UI update
         setCartItems(prevItems => 
             prevItems.map(item => 
                 item.id === itemId 
