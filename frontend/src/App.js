@@ -65,7 +65,7 @@ function App() {
                 <Route path="/home" element={<Home  setUpdateProduct={setUpdateProduct}/>} />
                 <Route path="/add-category" element={<AddCategory  setUpdateProduct={setUpdateProduct}/>} />
                 <Route path="/categories-list" element={<CategoriesList setUpdateProduct={setUpdateProduct}/>} />
-                <Route path="/add-product" element={<AddProducts updateProduct={updateProduct} setUpdateProduct={setUpdateProduct} />} />
+                <Route path="/add-product" element={<AddProducts updateProduct={updateProduct}  />} />
                 <Route path="/products-list" element={<ProductsList  setUpdateProduct={setUpdateProduct} />} />
                 <Route path="/cart" element={<Cart setUpdateProduct={setUpdateProduct} />} />
                 <Route path="/about" element={<About setUpdateProduct={setUpdateProduct} />} />

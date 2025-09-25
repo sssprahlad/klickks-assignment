@@ -128,10 +128,10 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
       });
       setImagePreview('');
       
-      setUpdateProduct(null);
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to add product');
-      }
+      // setUpdateProduct(null);
+      // if (!response.ok) {
+      //   throw new Error(result.message || 'Failed to add product');
+      // }
       
       // Show success message
       setSnackbar({
@@ -191,11 +191,11 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
    
-   setUpdateProduct(null); 
-    fetchCategories();
-  }, []);
+  //  setUpdateProduct(null); 
+  //   fetchCategories();
+  // }, []);
 
   useEffect(() => {
     if (updateProduct) {
