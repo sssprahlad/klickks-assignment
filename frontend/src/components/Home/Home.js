@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';  
+import "./Home.css";
 import { 
   Box, 
   Container, 
