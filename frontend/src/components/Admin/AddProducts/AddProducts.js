@@ -328,7 +328,8 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     sx: {
-                      width: "300px",
+                      width: "100%",
+                      minWidth: "200px",
                       borderRadius: 1,
                       backgroundColor: theme.palette.background.paper,
                     },
@@ -350,7 +351,8 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     sx: {
-                      width: "300px",
+                      width: "100%",
+                      minWidth: "220px",
                       // height: "100px",
                       borderRadius: 1,
                       backgroundColor: theme.palette.background.paper,
@@ -372,7 +374,8 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
                     onChange={handleChange}
                     label="Category *"
                     sx={{
-                      width: "300px",
+                      width: "100%",
+                      minWidth: "220px",
                       borderRadius: 1,
                       '& .MuiSelect-select': {
                         backgroundColor: theme.palette.background.paper,
@@ -412,7 +415,8 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
                       </InputAdornment>
                     ),
                     sx: {
-                      width: "300px",
+                      width: "100%",
+                      minWidth: "150px",
                       borderRadius: 1,
                       backgroundColor: theme.palette.background.paper,
                     },
@@ -434,7 +438,8 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     sx: {
-                      width: "300px",
+                      width: "100%",
+                      minWidth: "200px",
                       borderRadius: 1,
                       backgroundColor: theme.palette.background.paper,
                     },
@@ -458,7 +463,8 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     sx: {
-                      width: "300px",
+                      width: "100%",
+                      minWidth: "200px",
                       borderRadius: 1,
                       backgroundColor: theme.palette.background.paper,
                     },

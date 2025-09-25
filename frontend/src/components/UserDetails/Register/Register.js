@@ -232,11 +232,17 @@ const Register = () => {
         
         <StyledForm onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} width="100%">
               <TextField
+              sx={{
+                width: "100%",
+                minWidth: "150px",
+                borderRadius: 1,
+                backgroundColor: theme.palette.background.paper,
+              }}
                 margin="normal"
                 required
-                fullWidth
+                // fullWidth
                 id="username"
                 label="Username"
                 name="username"
@@ -256,11 +262,17 @@ const Register = () => {
               />
             </Grid>
             
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} width="100%">
               <TextField
+              sx={{
+                width: "100%",
+                minWidth: "150px",
+                borderRadius: 1,
+                backgroundColor: theme.palette.background.paper,
+              }}
                 margin="normal"
                 required
-                fullWidth
+                // fullWidth
                 name="password"
                 label="Password"
                 type={formData.showPassword ? 'text' : 'password'}
@@ -292,11 +304,17 @@ const Register = () => {
               />
             </Grid>
             
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} width="100%">
               <TextField
+              sx={{
+                width: "100%",
+                minWidth: "150px",
+                borderRadius: 1,
+                backgroundColor: theme.palette.background.paper,
+              }}
                 margin="normal"
                 required
-                fullWidth
+                // fullWidth
                 name="confirmPassword"
                 label="Confirm Password"
                 type={formData.showConfirmPassword ? 'text' : 'password'}
@@ -327,9 +345,15 @@ const Register = () => {
               />
             </Grid>
             
-            <Grid item xs={12}>
+            <Grid item xs={12} width="100%">
               <FormControl 
-                fullWidth 
+              sx={{
+                width: "100%",
+                minWidth: "150px",
+                borderRadius: 1,
+                backgroundColor: theme.palette.background.paper,
+              }}
+                // fullWidth 
                 margin="normal" 
                 required 
                 error={!!errors.category}
