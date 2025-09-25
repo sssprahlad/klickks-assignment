@@ -82,14 +82,14 @@ const corsOptions = {
   allowedHeaders: ['Content-Type','Authorization'],
   optionsSuccessStatus: 204
 };
+
+// Enable CORS with the defined options
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
-
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); 
-
-app.use(express.json());
+// Increase payload size limit to 50MB
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", productsRoutes);

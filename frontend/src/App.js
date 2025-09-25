@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { SnackbarProvider } from 'notistack';
 import { useMediaQuery } from '@mui/material';
 import theme from './theme';
 import Layout from './components/Layout/Layout';
@@ -16,49 +18,66 @@ import Cart from './components/Cart/Cart';
 import About from './components/About/About';
 import Contact from './components/Contact/Contact';
 import OrderSuccess from './components/OrderSuccess/OrderSuccess';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 function App() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const[updateProduct, setUpdateProduct] = useState(null);
+
+  console.log(updateProduct,"updateProduct");
+
+
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter>
-        <Layout isMobile={isMobile}>
-          <Routes>
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <Register />
-            </PublicRoute>
-          }
-        />
+      <SnackbarProvider 
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        autoHideDuration={3000}
+      >
+        <BrowserRouter>
+          <ScrollToTop setUpdateProduct={setUpdateProduct}>
+            <Layout isMobile={isMobile}>
+              <Routes>
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
 
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/add-category" element={<AddCategory />} />
-          <Route path="/categories-list" element={<CategoriesList />} />
-          <Route path="/add-product" element={<AddProducts />} />
-          <Route path="/products-list" element={<ProductsList />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/order-success" element={<OrderSuccess />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-        </Layout>
-      </BrowserRouter>
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/add-category" element={<AddCategory />} />
+                <Route path="/categories-list" element={<CategoriesList />} />
+                <Route path="/add-product" element={<AddProducts updateProduct={updateProduct} setUpdateProduct={setUpdateProduct} />} />
+                <Route path="/products-list" element={<ProductsList  setUpdateProduct={setUpdateProduct} />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Route>
+              </Routes>
+            </Layout>
+          </ScrollToTop>
+        </BrowserRouter>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

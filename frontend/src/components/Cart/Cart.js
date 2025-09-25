@@ -6,13 +6,15 @@ import "./Cart.css";
 import { useDispatch } from 'react-redux';
 import { setCount } from '../redux/reducer/user';
 import { useNavigate } from 'react-router-dom'; 
-
+import { Box, CircularProgress } from '@mui/material';
+import { useSnackbar } from 'notistack';    
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
     const fetchCartItems = useCallback(async () => {
         try {
             const response = await fetch(URL + GET_CART, {
@@ -23,6 +25,7 @@ const Cart = () => {
             });
             const data = await response.json();
             setCartItems(data.items || []);
+            dispatch(setCount(data.items.length));
         } catch (err) {
             console.error('Error fetching cart items:', err);
         } finally {
@@ -92,40 +95,73 @@ const Cart = () => {
 
     if (loading) {
         return (
-            <div className="cart-container">
-                <Navbar />
-                <div>Loading cart...</div>
-            </div>
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+                   <CircularProgress />
+            </Box>
         );
     }
 
     const handleRemove = async (itemId) => {
-        try{
+        try {
+            const token = Cookies.get('jwt_token');
+            if (!token) {
+                enqueueSnackbar('Please login to modify cart', { variant: 'error' });
+                return;
+            }
+
+            setUpdating(prev => ({ ...prev, [itemId]: true }));
+            
             const response = await fetch(`${URL}${REMOVE_CART_ITEM}/${itemId}`, {
                 method: "DELETE",
                 headers: { 
-                    "Authorization": `Bearer ${Cookies.get('jwt_token')}` 
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
                 },
             });
 
             if (!response.ok) {
-                throw new Error('Failed to remove cart item');
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Failed to remove item from cart');
             }
 
             const data = await response.json();
             console.log('Removed cart item:', data);
-            fetchCartItems();
+            
+            // Update the cart count in Redux
+            dispatch(setCount(data.items?.length || 0));
+            
+            // Show success message
+            enqueueSnackbar('Product removed from cart!', { 
+                variant: 'success',
+                autoHideDuration: 3000,
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                },
+            });
+            
+            // Refresh the cart items
+            await fetchCartItems();
 
         } catch (err) {
             console.error('Error removing cart item:', err);
-            fetchCartItems();
+            enqueueSnackbar(err.message || 'Failed to remove item', { 
+                variant: 'error',
+                autoHideDuration: 3000,
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                },
+            });
+            await fetchCartItems();
+        } finally {
+            setUpdating(prev => ({ ...prev, [itemId]: false }));
         }
-       
     };
 
     return (
         <div className="cart-container">
-            <Navbar />
+            {/* <Navbar /> */}
             <h1 className="cart-title">Your Shopping Cart</h1>
             
             {cartItems.length > 0 ? (

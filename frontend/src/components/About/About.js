@@ -5,7 +5,7 @@ import Navbar from "../Navbar/Navbar";
 const About = () => {
   return (
     <div className="about-container">
-        <Navbar />
+        {/* <Navbar /> */}
       <div className="about-content">
         <h1>About Us</h1>
         <p className="about-description">

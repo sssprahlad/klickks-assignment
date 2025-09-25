@@ -66,6 +66,15 @@ router.delete("/:id", authMiddleware, (req, res) => {
   });
 });
 
+router.patch("/:id", authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const { name, price, productdescription, productimage, productstock, categoryid } = req.body;
+  db.run("UPDATE products SET name = ?, price = ?, productdescription = ?, productimage = ?, productstock = ?, categoryid = ? WHERE id = ?", [name, price, productdescription, productimage, productstock, categoryid, id], function (err) {
+    if (err) return res.status(500).json({ error: "Database error" });
+    res.json({ success: true, message: "Product updated successfully" });
+  });
+});
+
 
 
 module.exports = router;

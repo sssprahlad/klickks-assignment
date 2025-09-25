@@ -1,20 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";  
+import { createSlice } from "@reduxjs/toolkit";
+
+// Helper to safely get initial state
+const getInitialState = () => ({
+  count: 0
+});
 
 const userSlice = createSlice({
-    name: "user",
-    initialState: {
-        // homeButton: true,
-        count: 0,
-      
-       
-    },
-    reducers: {
-     setCount: (state, action) => {
+  name: "user",
+  initialState: getInitialState(),
+  reducers: {
+    setCount: {
+      reducer: (state, action) => {
         state.count = action.payload;
-     },
-     
-    },
-}); 
+      },
+      prepare: (count) => {
+        return { payload: count };
+      }
+    }
+  },
+ 
+  extraReducers: (builder) => {
+    builder.addCase('LOGOUT', (state) => {
+      return getInitialState();
+    });
+  }
+});
 
-export default userSlice.reducer;
 export const { setCount } = userSlice.actions;
+export default userSlice.reducer;

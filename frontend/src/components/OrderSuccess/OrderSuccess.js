@@ -8,7 +8,7 @@ const OrderSuccess = () => {
 
   return (
     <div className="order-success-container">
-        <Navbar/>
+        {/* <Navbar/> */}
         <div className="order-success-content-sub">
       <img 
         src="https://cdn-icons-png.flaticon.com/512/845/845646.png" 

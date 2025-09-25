@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
+import AddBox from '@mui/icons-material/AddBox';
 import { 
   AppBar, 
   Toolbar, 
@@ -38,6 +39,9 @@ import {
   ExpandMore,
   PersonAdd
 } from '@mui/icons-material';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setCount } from '../redux/reducer/user';
 import { URL, GET_CART } from '../constants/Constants';
 
 const Navbar = ({ isMobile }) => {
@@ -46,11 +50,55 @@ const Navbar = ({ isMobile }) => {
   const username = Cookies.get('username');
   const category = Cookies.get('category');
   const count = useSelector((state) => state.user.count);
-  const [cartItems, setCartItems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
+  const [cartItems, setCartItems] = useState(0);
+
+  console.log(count,"count in navbar");
+
+ 
+  useEffect(() => {
+    const fetchCart = async () => {
+      const token = Cookies.get('jwt_token');
+      if (!token) {
+        dispatch(setCount(0));
+        setCartItems(0);
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${URL}${GET_CART}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        // Handle different response formats
+        const items = response.data?.products || response.data || [];
+        console.log(items,"items");
+        const itemCount = items?.items?.length || 0;
+        console.log(itemCount,"itemCount");
+        
+        // Update both local state and Redux store
+        dispatch(setCount(itemCount));
+        setCartItems(itemCount);
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+        dispatch(setCount(0));
+        setCartItems(0);
+      }
+    };
+
+    fetchCart();
+    
+    // Optional: Set up an interval to refresh cart count periodically
+    const interval = setInterval(fetchCart, 30000); // Every 30 seconds
+    
+    return () => clearInterval(interval);
+  }, [count]); 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const isLoggedIn = !!Cookies.get('jwt_token');
+
+  console.log(count,"count");
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,6 +112,7 @@ const Navbar = ({ isMobile }) => {
     if (window.confirm('Are you sure you want to logout?')) {
       Cookies.remove('jwt_token');
       Cookies.remove('username');
+      dispatch(setCount(0));
       handleClose();
       navigate('/login', { replace: true });
     }
@@ -77,33 +126,18 @@ const Navbar = ({ isMobile }) => {
     setCategoryOpen(!categoryOpen);
   };
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      if (!isLoggedIn) return;
-      
-      try {
-        const response = await fetch(URL + GET_CART, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('jwt_token')}`,
-          },
-        });
-        const data = await response.json();
-        setCartItems(data?.items || []);
-      } catch (err) {
-        console.error('Error fetching cart items:', err);
-      }
-    };
-
-    fetchCartItems();
-  }, [isLoggedIn]);
+  console.log(cartItems,"cartItems");
 
   const menuItems = [
     { text: 'Home', path: '/home', icon: <Home /> },
     { text: 'Categories', path: '/categories-list', icon: <Category /> },
     { text: 'About', path: '/about', icon: <Info /> },
     { text: 'Contact', path: '/contact', icon: <ContactMail /> },
-  ];
+    ...(category === "ADMIN" ? [
+      { text: 'Add Category', path: '/add-category', icon: <Category /> },
+      { text: 'Add Product', path: '/add-product', icon: <AddBox /> }
+    ] : [])
+  ].filter(Boolean);
 
   const drawer = (
     <Box sx={{ width: 250 }} role="presentation" onClick={handleDrawerToggle}>
@@ -114,6 +148,7 @@ const Navbar = ({ isMobile }) => {
               component={NavLink} 
               to={item.path}
               sx={{
+                
                 '&.active': {
                   backgroundColor: theme.palette.action.selected,
                   '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
@@ -121,6 +156,8 @@ const Navbar = ({ isMobile }) => {
                     fontWeight: 'medium',
                   },
                 },
+                
+                
               }}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
@@ -211,22 +248,57 @@ const Navbar = ({ isMobile }) => {
           )}
 
           <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-            <IconButton
-              component={NavLink}
-              to="/cart"
-              size="large"
-              aria-label={`show ${count} items in cart`}
-              color="inherit"
-              sx={{
-                '&.active': {
-                  color: theme.palette.primary.main,
-                },
-              }}
-            >
-              <Badge badgeContent={count} color="error">
-                <ShoppingCart />
-              </Badge>
-            </IconButton>
+            <Box sx={{ position: 'relative' }}>
+              <IconButton
+                component={NavLink}
+                to="/cart"
+                size="large"
+                aria-label={`show ${cartItems} items in cart`}
+                color="inherit"
+                sx={{
+                  '&.active': {
+                    color: theme.palette.primary.main,
+                  },
+                }}
+              >
+                <Badge 
+                  
+                  color="primary"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      backgroundColor: 'white',
+                      color: theme.palette.primary.main,
+                      fontWeight: 'bold',
+                    },
+                    position: 'relative',
+                  }}
+                >
+                  <ShoppingCart sx={{ fontSize: 28 }} />
+                </Badge>
+                {cartItems > 0 && (
+                  <Typography 
+                    variant="caption" 
+                    sx={{
+                      position: 'absolute',
+                      bottom: 4,
+                      right: 4,
+                      backgroundColor: theme.palette.primary.main,
+                      color: 'white',
+                      borderRadius: '50%',
+                      width: '18px',
+                      height: '18px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.7rem',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {cartItems}
+                  </Typography>
+                )}
+              </IconButton>
+            </Box>
 
             {isLoggedIn ? (
               <>
@@ -312,7 +384,7 @@ const Navbar = ({ isMobile }) => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true, 
         }}
         sx={{
           display: { xs: 'block', md: 'none' },

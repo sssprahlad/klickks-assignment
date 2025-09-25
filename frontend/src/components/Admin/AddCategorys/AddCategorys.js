@@ -57,7 +57,7 @@ const AddCategorys = () => {
 
     return (
         <div className='add-category'> 
-            <Navbar />
+            {/* <Navbar /> */}
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "80vh" }}>  
                 <div className='add-category-container'>
                     <div className="category-header">
