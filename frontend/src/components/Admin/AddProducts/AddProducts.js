@@ -191,11 +191,9 @@ const AddProducts = ({ updateProduct, setUpdateProduct }) => {
     }
   };
 
-  // useEffect(() => {
-   
-  //  setUpdateProduct(null); 
-  //   fetchCategories();
-  // }, []);
+   useEffect(() => {
+    fetchCategories();
+  }, []); 
 
   useEffect(() => {
     if (updateProduct) {
